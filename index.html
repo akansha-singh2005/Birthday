@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#170f24">
+<title>Happy Birthday, Arjun!</title>
+<style>
+:root {
+  --bg: #170f24; --panel: #25182f; --gold: #f6d69a;
+  --pink: #f2b7c9; --cream: #fff4e8; --muted: #d7c4d6;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; color: var(--cream); background: var(--bg);
+  font-family: Georgia, "Times New Roman", serif; overflow-x: hidden;
+}
+button { font: inherit; }
+.hero {
+  min-height: 100svh; padding: 70px 22px 60px; display: grid;
+  place-items: center; text-align: center; position: relative; isolation: isolate;
+  background:
+    radial-gradient(ellipse at 50% 10%, #69405e 0, transparent 48%),
+    linear-gradient(145deg, #170f24, #301c38 58%, #1a1126);
+  overflow: hidden;
+}
+.hero::before, .hero::after {
+  content: "✦"; position: absolute; color: #f6d69a66; font-size: 150px;
+  z-index: -1; animation: twinkle 4s ease-in-out infinite;
+}
+.hero::before { top: 8%; left: 8%; }
+.hero::after { right: 8%; bottom: 12%; animation-delay: 1.5s; }
+.hero-inner { max-width: 760px; }
+.eyebrow { color: var(--pink); letter-spacing: .24em; text-transform: uppercase; font: 12px Arial,sans-serif; }
+.cake { font-size: clamp(58px, 12vw, 100px); margin: 22px 0 4px; animation: bob 2.4s ease-in-out infinite; }
+h1 { color: var(--gold); font-size: clamp(48px, 10vw, 92px); line-height: .98; margin: 16px 0; text-shadow: 0 0 32px #f6d69a55; }
+.hero p { color: var(--muted); font-size: clamp(16px, 2.5vw, 20px); line-height: 1.8; max-width: 590px; margin: 20px auto 28px; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.btn {
+  border: 1px solid #f6d69a88; border-radius: 999px; padding: 13px 22px;
+  background: linear-gradient(135deg, var(--gold), var(--pink)); color: #29182f;
+  font: 700 13px Arial,sans-serif; letter-spacing: .04em; cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+.btn.secondary { background: transparent; color: var(--cream); }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 8px 26px #f6d69a33; }
+section { padding: 76px 20px; text-align: center; }
+.section-title { color: var(--gold); font-size: clamp(30px, 5vw, 43px); margin: 0 0 13px; }
+.section-intro { max-width: 650px; margin: 0 auto 34px; color: var(--muted); line-height: 1.8; }
+.gallery {
+  width: min(1120px, 100%); margin: auto; display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 20px;
+}
+.photo-card {
+  background: linear-gradient(145deg, #30213a, #21172b); border: 1px solid #b88b9b55;
+  border-radius: 18px; padding: 12px; overflow: hidden; box-shadow: 0 12px 30px #0002;
+}
+.photo-frame {
+  width: 100%; height: 330px; display: grid; place-items: center;
+  background: #100c17; border-radius: 12px; overflow: hidden;
+}
+.photo-frame img {
+  display: block; width: 100%; height: 100%;
+  object-fit: contain; /* show the entire photo: never crop faces */
+  object-position: center;
+  cursor: zoom-in;
+}
+.photo-caption { color: var(--gold); font-size: 15px; padding: 13px 5px 5px; }
+.note { font: 12px/1.6 Arial,sans-serif; color: #bca9bf; margin-top: 16px; }
+.letter-wrap { max-width: 760px; margin: auto; }
+.letter {
+  display: none; text-align: left; padding: clamp(22px, 5vw, 42px);
+  border: 1px solid #d5a6b866; border-radius: 20px;
+  background: linear-gradient(145deg, #39243d, #24182e);
+  color: #f8e8eb; line-height: 2; margin-top: 24px;
+}
+.letter.open { display: block; animation: rise .55s ease both; }
+.letter h3 { color: var(--gold); font-size: 27px; margin-top: 0; }
+.gift { font-size: 92px; display: inline-block; cursor: pointer; transition: transform .25s; }
+.gift:hover { transform: rotate(-9deg) scale(1.08); }
+.surprise { display: none; max-width: 620px; margin: 22px auto 0; color: var(--gold); font-size: 25px; line-height: 1.6; }
+.surprise.show { display: block; animation: rise .6s ease both; }
+footer { background: #100b18; color: var(--muted); text-align: center; padding: 32px 18px; line-height: 1.9; }
+#lightbox {
+  display: none; position: fixed; inset: 0; z-index: 30; padding: 54px 18px 20px;
+  background: #08060dee; align-items: center; justify-content: center;
+}
+#lightbox.open { display: flex; }
+#lightbox img { max-width: 95vw; max-height: 88vh; width: auto; height: auto; object-fit: contain; }
+#lightbox button { position: absolute; top: 14px; right: 18px; background: none; border: 0; color: white; font-size: 38px; cursor: pointer; }
+#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 25; }
+.floaty { position: fixed; bottom: -45px; z-index: 2; pointer-events: none; animation: float-up linear forwards; }
+@keyframes float-up { to { transform: translateY(-115vh) rotate(300deg); opacity: 0; } }
+@keyframes bob { 50% { transform: translateY(-12px); } }
+@keyframes twinkle { 50% { opacity: .25; transform: scale(.8) rotate(20deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 520px) {
+  section { padding: 58px 15px; }
+  .photo-frame { height: 300px; }
+  .gallery { grid-template-columns: 1fr 1fr; gap: 11px; }
+  .photo-card { padding: 8px; }
+  .photo-frame { height: 240px; }
+  .photo-caption { font-size: 13px; }
+}
+@media (max-width: 350px) { .gallery { grid-template-columns: 1fr; } .photo-frame { height: 320px; } }
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">A little celebration for someone special</div>
+    <div class="cake">🎂</div>
+    <h1>Happy Birthday<br>Arjun!</h1>
+    <p>Here's to another year of laughter, big dreams, unforgettable adventures, and all the little moments that make life wonderful.</p>
+    <div class="actions">
+      <button class="btn" onclick="celebrate()">LET'S CELEBRATE ✨</button>
+      <button class="btn secondary" onclick="document.getElementById('memories').scrollIntoView()">OUR MEMORIES ↓</button>
+    </div>
+  </div>
+</header>
+
+<section id="memories">
+  <h2 class="section-title">A Gallery of Good Times</h2>
+  <p class="section-intro">A few snapshots of the person we're celebrating. Tap any picture to see it larger.</p>
+  <div class="gallery" id="gallery"></div>
+  <p class="note">Photos are displayed in full, without cropping, so every frame keeps its original composition.</p>
+</section>
+
+<section>
+  <div class="letter-wrap">
+    <h2 class="section-title">A Little Note for You</h2>
+    <p class="section-intro">Some wishes are better opened than simply read on a screen.</p>
+    <button class="btn" onclick="document.getElementById('letter').classList.toggle('open')">OPEN YOUR LETTER 💌</button>
+    <div class="letter" id="letter">
+      <h3>Dear Arjun,</h3>
+      Happy Birthday! I'm genuinely glad to have you as a friend. Thank you for the laughter, the random conversations, the outings, and all the memories we've made along the way.
+      <br><br>
+      I hope this year brings you good health, exciting opportunities, peace of mind, and plenty of reasons to smile. Keep being yourself, keep chasing what matters to you, and never stop making ordinary days memorable.
+      <br><br>
+      Here's to many more stories, adventures, and years of friendship. Have the best birthday!
+      <br><br>
+      With lots of love and best wishes,<br>
+      Your friend ❤️
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title">One Last Surprise</h2>
+  <p class="section-intro">A tiny birthday surprise, just for you.</p>
+  <div class="gift" role="button" tabindex="0" aria-label="Open birthday gift" onclick="openGift()" onkeydown="if(event.key==='Enter'||event.key===' '){openGift()}">🎁</div>
+  <div class="surprise" id="surprise">🎉 You deserve all the happiness in the world, Arjun!<br><span style="font-size:17px;color:#f8e8eb">May the year ahead be your best one yet.</span></div>
+</section>
+
+<footer>Made with love, especially for Arjun.<br>More memories to come. ❤️</footer>
+
+<div id="lightbox" onclick="closePhoto(event)">
+  <button aria-label="Close photo" onclick="closePhoto(event)">×</button>
+  <img id="largePhoto" alt="Expanded memory">
+</div>
+
+<script>
+const photos = [
+  { src: "images/photo1.jpg", caption: "A little sunshine in the everyday" },
+  { src: "images/photo2.jpg", caption: "Confidence, always" },
+  { src: "images/photo3.jpg", caption: "The gang and the good times" },
+  { src: "images/photo4.jpg", caption: "A moment worth remembering" },
+  { src: "images/photo5.jpg", caption: "Main-character energy" },
+  { src: "images/photo6.jpg", caption: "Effortlessly stylish" },
+  { src: "images/photo7.jpg", caption: "Food, friends and memories" },
+  { src: "images/photo8.jpg", caption: "The best kind of company" },
+  { src: "images/photo9.jpg", caption: "One more favourite memory" }
+];
+
+const gallery = document.getElementById("gallery");
+photos.forEach((photo, index) => {
+  const card = document.createElement("article");
+  card.className = "photo-card";
+  const frame = document.createElement("div");
+  frame.className = "photo-frame";
+  const img = document.createElement("img");
+  img.src = photo.src;
+  img.alt = "Arjun memory " + (index + 1);
+  img.loading = index > 2 ? "lazy" : "eager";
+  img.addEventListener("click", () => openPhoto(photo.src));
+  const caption = document.createElement("div");
+  caption.className = "photo-caption";
+  caption.textContent = photo.caption;
+  frame.appendChild(img);
+  card.append(frame, caption);
+  gallery.appendChild(card);
+});
+
+function openPhoto(src) {
+  document.getElementById("largePhoto").src = src;
+  document.getElementById("lightbox").classList.add("open");
+}
+function closePhoto(event) {
+  if (event.target.id === "lightbox" || event.target.tagName === "BUTTON") {
+    document.getElementById("lightbox").classList.remove("open");
+  }
+}
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") document.getElementById("lightbox").classList.remove("open");
+});
+
+function openGift() {
+  document.getElementById("surprise").classList.add("show");
+  celebrate();
+}
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let particles = [];
+function resizeCanvas() {
+  canvas.width = window.innerWidth * devicePixelRatio;
+  canvas.height = window.innerHeight * devicePixelRatio;
+  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+function celebrate() {
+  const colors = ["#f6d69a", "#f2b7c9", "#ffffff", "#c7a7ed", "#e9a76f"];
+  for (let i = 0; i < 170; i++) {
+    particles.push({
+      x: Math.random() * window.innerWidth,
+      y: -20 - Math.random() * window.innerHeight * .5,
+      vx: (Math.random() - .5) * 3,
+      vy: 2 + Math.random() * 4,
+      size: 3 + Math.random() * 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      spin: Math.random() * 6
+    });
+  }
+}
+function animate() {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.spin += .08;
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.spin);
+    ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size * 1.5);
+    ctx.restore();
+  });
+  particles = particles.filter(p => p.y < window.innerHeight + 20);
+  requestAnimationFrame(animate);
+}
+animate();
+
+const symbols = ["✦", "♥", "✧", "🎈"];
+setInterval(() => {
+  const el = document.createElement("span");
+  el.className = "floaty";
+  el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.fontSize = (14 + Math.random() * 18) + "px";
+  el.style.color = Math.random() > .5 ? "#f6d69a" : "#f2b7c9";
+  el.style.animationDuration = (7 + Math.random() * 6) + "s";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 14000);
+}, 850);
+</script>
+</body>
+</html>
